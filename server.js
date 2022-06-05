@@ -6,8 +6,8 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/productos", productRouter);
-app.use("/carrito", cartRouter);
+app.use("/api/productos", productRouter);
+app.use("/api/carrito", cartRouter);
 
 const port = process.env.PORT | 8080;
 

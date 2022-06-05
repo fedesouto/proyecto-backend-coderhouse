@@ -3,13 +3,14 @@ const productos = require("../controllers/products.controller");
 
 const productRouter = Router();
 
-productRouter.get("/:id?", async (req, res) => {
+productRouter.get("/:id?", async (req, res, next) => {
   const id = Number(req.params.id);
   if (!id) {
-        const data = await productos.getAll();
-        res.json(data);
+    const data = await productos.getAll();
+    res.json(data);
   } else {
     const data = await productos.getById(id);
+    if (!data) next(new Error('No se encuentra el procucto'))
     res.json(data);
   }
 });

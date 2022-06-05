@@ -1,32 +1,26 @@
 const {Router} = require('express')
+const carritos = require('../controllers/carts.controller')
 
 const cartRouter = Router()
 
-cartRouter.get('/:id/productos', (req, res) => {
-    const id = req.params.id;
-    res.json('productos del carrito')
+cartRouter.get('/:id/productos', async (req, res, next) => {
+    await carritos.getById(req, res, next)
 })
 
-cartRouter.post('/', (req, res) => {
-    const newCart = req.body
-    res.json('nuevo carrito')
+cartRouter.post('/', async (req, res, next) => {
+    await carritos.createNew(req, res, next)
 })
 
-cartRouter.post('/:id/productos', (req, res) => {
-    const id = req.params.id;
-    const newProduct = req.body
-    res.json('nuevo producto')
+cartRouter.post('/:id/productos',  (req, res, next) => {
+    
 })
 
-cartRouter.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    res.json('carrito eliminado')
+cartRouter.delete('/:id', async (req, res, next) => {
+    await carritos.deleteCart(req, res, next)
 })
 
-cartRouter.delete('/:id/productos/:id_prod', (req, res) => {
-    const id = req.params.id;
-    const id_prod = req.params.id_prod
-    res.json('producto del carrito eliminado')
+cartRouter.delete('/:id/productos/:id_prod', async(req, res, next) => {
+    await carritos.deleteProduct(req, res, next)
 })
 
 module.exports = cartRouter;
