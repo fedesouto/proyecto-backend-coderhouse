@@ -23,8 +23,9 @@ class ProductsController {
   async save(data) {
     await fs.promises.writeFile(this.filename, JSON.stringify(data));
   }
-  async addNew(data) {
+  async addNew(req, res, next) {
     //guarda en archivo y retorna el id
+    const data = req.body;
     try {
       const array = await this.getAll();
       if (!array.length) {
@@ -36,50 +37,56 @@ class ProductsController {
         const newProduct = new Product(data);
         await this.save([...array, newProduct]);
       }
-
-      return data.id;
+      res.json(data.id);
     } catch (error) {
-      return error;
+      next(error);
     }
   }
-  async getById(id) {
+  async getById(req, res, next) {
+    const id = Number(req.params.id);
+    try {
+      const array = await this.getAll();
+      if (!id) {
+        res.json(array);
+      } else {
+        const product = array.find((element) => element.id === id);
+        if (!product) res.status(404).send("El producto no existe")
+        else res.json(product);
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+  async updateById(req, res, next) {
+    const id = Number(req.params.id)
+    const data = req.body;
+    const updatedProduct = new Product({id: id, ...data})
     try {
       const array = await this.getAll();
       const product = array.find((element) => element.id === id);
-      if (!product) throw new Error("El producto no existe");
-      else return product;
-    } catch (error) {
-      return error;
-    }
-  }
-  async updateById(id, data) {
-    try {
-      const product = await this.getById(id);
-      for (let i in product) {
-        if (i !== "id" && i !== "timestamp") product[i] = data[i];
-      }
-      product.timestamp = Date.now();
-      const array = await this.getAll();
       const newArray = array.map((element) => {
-        if (element.id === product.id) return product;
+        if (element.id === product.id) return updatedProduct;
         else return element;
       });
       await this.save(newArray);
-      return id;
+      res.json(id);
     } catch (error) {
-      return error;
+      next(error);
     }
   }
-  async deleteById(id) {
+  async deleteById(req, res, next) {
+    const id = Number(req.params.id);
     try {
       const array = await this.getAll();
       const newArray = array.filter((element) => element.id !== id);
-      if (newArray.length === array.length)
-        throw new Error("El producto no existe");
-      await this.save(newArray);
-      return id;
+      if (newArray.length === array.length) {
+        res.status(404).send("El producto no existe")
+      } else {
+        await this.save(newArray);
+        res.json(id)
+      }
     } catch (error) {
-      return error;
+      next(error)
     }
   }
 }

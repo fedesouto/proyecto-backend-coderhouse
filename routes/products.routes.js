@@ -1,38 +1,23 @@
 const { Router } = require("express");
 const productos = require("../controllers/products.controller");
+const isAuthorized = require('../middlewares/auth')
 
 const productRouter = Router();
 
 productRouter.get("/:id?", async (req, res, next) => {
-  const id = Number(req.params.id);
-  if (!id) {
-    const data = await productos.getAll();
-    res.json(data);
-  } else {
-    const data = await productos.getById(id);
-    if (!data) next(new Error('No se encuentra el procucto'))
-    res.json(data);
-  }
+  await productos.getById(req, res, next);
 });
 
-productRouter.post("/", async (req, res) => {
-  const newProduct = req.body;
-  await productos.addNew(newProduct);
-  res.json("nuevo producto");
+productRouter.post("/", isAuthorized, async (req, res, next) => {
+  await productos.addNew(req, res, next);
 });
 
-productRouter.put("/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  const newData = req.body;
-  await productos.updateById(id, newData);
-  res.json("actualizar producto");
+productRouter.put("/:id", isAuthorized, async (req, res, next) => {
+  await productos.updateById(req, res, next)
 });
 
-productRouter.delete("/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  await productos.deleteById(id);
-  res.json("producto eliminado");
+productRouter.delete("/:id", isAuthorized, async (req, res, next) => {
+  await productos.deleteById(req, res, next)
 });
-
 
 module.exports = productRouter;

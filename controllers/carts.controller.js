@@ -23,7 +23,7 @@ class CartsController {
         try {
             const array = await this.getAll()
             const products = array.find(cart => cart.id === id)
-            if (!products) next(new Error('El carrito esta vacio'))
+            if (!products) res.status(404).send('El carrito no existe')
             else {
                 res.json(products)
             }
@@ -33,7 +33,7 @@ class CartsController {
     }
     async createNew(req, res, next) {
         const data = req.body;
-        const newCart = new Cart(data)
+        const newCart = new Cart({productos: data})
         try {
             const carts = await this.getAll()
             if (!carts.length) {
@@ -56,7 +56,7 @@ class CartsController {
             const carts = await this.getAll()
             const newCart = carts.filter(cart => cart.id !== id)
             if (newCart.length == carts.length) {
-                next(new Error('El carrito no existe'))
+                res.status(404).send('El carrito no existe')
             }
             else {
                 await this.save(newCart)
@@ -86,10 +86,10 @@ class CartsController {
         }
     }
     async addProduct(req, res, next) {
-        const id = req.params.id
+        const id = Number(req.params.id)
         const product = req.body
         try {
-            const carts = this.getAll()
+            const carts = await this.getAll()
             const newCarts = carts.map(cart => {
                 if (cart.id === id) {
                     cart.productos = [...cart.productos, product]
@@ -100,7 +100,7 @@ class CartsController {
             await this.save(newCarts)
             res.json('se agrego un producto nuevo al carrito')
         } catch (error) {
-            
+            next(error)
         }
 
     }

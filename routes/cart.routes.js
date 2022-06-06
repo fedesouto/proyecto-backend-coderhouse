@@ -11,8 +11,8 @@ cartRouter.post('/', async (req, res, next) => {
     await carritos.createNew(req, res, next)
 })
 
-cartRouter.post('/:id/productos',  (req, res, next) => {
-    
+cartRouter.post('/:id/productos', async (req, res, next) => {
+    await carritos.addProduct(req, res, next)
 })
 
 cartRouter.delete('/:id', async (req, res, next) => {
