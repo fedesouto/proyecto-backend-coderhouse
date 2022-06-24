@@ -1,6 +1,5 @@
 class Product {
-  constructor({ id, name, description, code, image, price, stock }) {
-    this.id = id;
+  constructor({ name, description, code, image, price, stock }) {
     this.timestamp = Date.now();
     this.name = name;
     this.description = description;

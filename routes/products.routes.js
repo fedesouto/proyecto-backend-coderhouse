@@ -1,23 +1,17 @@
 const { Router } = require("express");
-const productos = require("../controllers/products.controller");
-const isAuthorized = require('../middlewares/auth')
+const isAuthorized = require("../middlewares/auth");
+const productsController = require("../controllers/products.controller");
 
 const productRouter = Router();
 
-productRouter.get("/:id?", async (req, res, next) => {
-  await productos.getById(req, res, next);
-});
+productRouter.get("/", productsController.getAll);
 
-productRouter.post("/", isAuthorized, async (req, res, next) => {
-  await productos.addNew(req, res, next);
-});
+productRouter.get("/:id?", productsController.getById);
 
-productRouter.put("/:id", isAuthorized, async (req, res, next) => {
-  await productos.updateById(req, res, next)
-});
+productRouter.post("/", isAuthorized, productsController.addNew);
 
-productRouter.delete("/:id", isAuthorized, async (req, res, next) => {
-  await productos.deleteById(req, res, next)
-});
+productRouter.put("/:id", isAuthorized, productsController.updateById);
+
+productRouter.delete("/:id", isAuthorized, productsController.deleteById);
 
 module.exports = productRouter;
