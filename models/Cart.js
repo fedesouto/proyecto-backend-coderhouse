@@ -1,6 +1,5 @@
 class Cart {
-    constructor({id, productos}){
-        this.id = id
+    constructor(productos){
         this.timestamp = Date.now()
         this.productos = productos
     }

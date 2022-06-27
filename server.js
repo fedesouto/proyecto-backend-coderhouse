@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/productos", productRouter);
-app.use("/api/carrito", cartRouter);
+app.use("/api/carritos", cartRouter);
 
 const port = process.env.PORT | 8080;
 
