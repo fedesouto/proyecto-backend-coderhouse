@@ -1,5 +1,5 @@
 const Cart = require("../models/Cart");
-const { CarritosDao } = require("../index");
+const { CarritosDao } = require("../daos/index");
 
 const cartsController = {};
 

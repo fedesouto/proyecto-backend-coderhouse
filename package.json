@@ -15,7 +15,8 @@
     "firebase-admin": "^11.0.0",
     "knex": "^2.1.0",
     "mongodb": "^4.7.0",
-    "mongoose": "^6.4.0"
+    "mongoose": "^6.4.0",
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

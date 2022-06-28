@@ -1,5 +1,5 @@
 const Product = require("../models/Product");
-const {ProductosDao} = require("../index");
+const {ProductosDao} = require("../daos/index");
 
 const productsController = {};
 

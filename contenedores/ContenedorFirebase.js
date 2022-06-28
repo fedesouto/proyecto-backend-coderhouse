@@ -1,7 +1,8 @@
 const admin = require("firebase-admin");
-const serviceAccount = require('../coder-backend-5ae09-firebase-adminsdk-6rlzw-e7ab343996.json')
+const {firebaseServiceAccount} = require('../config')
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(firebaseServiceAccount),
 });
 
 class ContenedorFirebase {
@@ -33,7 +34,8 @@ class ContenedorFirebase {
   }
   async addItem(data) {
     try {
-      return await this.query.doc().create(JSON.parse(JSON.stringify(data)));
+      await this.query.doc(data.id).create(JSON.parse(JSON.stringify(data)));
+      return data.id
     } catch (error) {
       throw error;
     }

@@ -1,10 +1,10 @@
-const ContenedorMongoDB = require('../../contenedores/ContenedorMongoDB')
+const ContenedorMongoDB = require("../../contenedores/ContenedorMongoDB");
+const {mongodbUri} = require("../../config");
 
 class ProductosDaoMongoDB extends ContenedorMongoDB {
-    constructor() {
-        const uri = 'mongodb+srv://federoot:federoot@cluster0.iiotc.mongodb.net/?retryWrites=true&w=majority'
-        super(uri, 'ecommerce', 'productos')
-    }
+  constructor() {
+    super(mongodbUri, "ecommerce", "productos");
+  }
 }
 
 module.exports = ProductosDaoMongoDB;

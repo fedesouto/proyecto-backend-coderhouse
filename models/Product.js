@@ -1,5 +1,8 @@
+const uniqid = require('uniqid')
+
 class Product {
   constructor({ name, description, code, image, price, stock }) {
+    this.id = uniqid()
     this.timestamp = Date.now();
     this.name = name;
     this.description = description;
