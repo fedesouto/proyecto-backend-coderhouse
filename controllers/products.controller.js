@@ -23,6 +23,7 @@ productsController.getById = async (req, res, next) => {
   const id = req.params.id;
   try {
     const data = await ProductosDao.getById(id);
+    if(!data) res.status(404).send('el producto no existe')
     res.json(data);
   } catch (error) {
     next(error);

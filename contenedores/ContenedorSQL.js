@@ -1,6 +1,6 @@
 const Knex = require("knex").default;
 
-class Contenedor {
+class ContenedorSQL {
   constructor(table, options) {
     this.table = table;
     this.knex = Knex(options);
@@ -21,7 +21,7 @@ class Contenedor {
       const data = await this.knex
         .from(this.table)
         .select("*")
-        .where("id", "=", id);
+        .where("id", "=", id).first();
       return data;
     } catch (error) {
       throw error;
@@ -58,4 +58,4 @@ class Contenedor {
   }
 }
 
-module.exports = Contenedor;
+module.exports = ContenedorSQL;

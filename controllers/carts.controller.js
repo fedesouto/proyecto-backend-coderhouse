@@ -25,6 +25,7 @@ cartsController.getById = async (req, res, next) => {
     const id = req.params.id;
   try {
     const data = await CarritosDao.getById(id);
+    if(!data) res.status(404).send('el carrito no existe')
     res.json(data);
   } catch (error) {
     next(error);
