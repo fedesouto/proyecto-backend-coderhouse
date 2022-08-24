@@ -26,6 +26,17 @@ class ContenedorMongoDB {
       throw error;
     }
   }
+  async find(key, value) {
+    try {
+      const data = await this.mongo
+        .db(this.db)
+        .collection(this.collection)
+        .findOne({ [key]: value });
+        return data
+    } catch (error) {
+      throw error;
+    }
+  }
   async getById(id) {
     try {
       const data = await this.mongo
@@ -39,10 +50,7 @@ class ContenedorMongoDB {
   }
   async addItem(data) {
     try {
-      await this.mongo
-        .db(this.db)
-        .collection(this.collection)
-        .insertOne(data);
+      await this.mongo.db(this.db).collection(this.collection).insertOne(data);
       return data.id;
     } catch (error) {
       throw error;
@@ -53,7 +61,7 @@ class ContenedorMongoDB {
       return await this.mongo
         .db(this.db)
         .collection(this.collection)
-        .updateOne({ id:id }, { $set: data });
+        .updateOne({ id: id }, { $set: data });
     } catch (error) {
       throw error;
     }

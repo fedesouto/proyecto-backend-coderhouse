@@ -1,10 +1,9 @@
 const ProductosDaoMongoDB = require('./productos/ProductosDaoMongoDB')
-const ProductosDaoFirebase = require('./productos/ProductosDaoFirebase')
-const CarritosDaoFirebase = require('./carritos/CarritosDaoFirebase')
 const CarritosDaoMongoDB = require('./carritos/CarritosDaoMongoDB')
-
+const UsuariosDaoMongoDB = require('./users/UsuariosDaoMongoDB')
 
 const ProductosDao = new ProductosDaoMongoDB();
 const CarritosDao = new CarritosDaoMongoDB();
+const UsuariosDao = new UsuariosDaoMongoDB();
 
-module.exports = {ProductosDao, CarritosDao};
+module.exports = {ProductosDao, CarritosDao, UsuariosDao};
