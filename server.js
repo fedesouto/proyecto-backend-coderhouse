@@ -10,14 +10,14 @@ const sessionRouter = require("./routes/session.routes");
 
 const app = express();
 
-app.use(cors())
+app.use(cors({credentials: true}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(secret))
 app.use(session)
 app.use(passport.initialize())
 app.use(passport.session())
-
+app.use('/public', express.static('public'))
 
 
 

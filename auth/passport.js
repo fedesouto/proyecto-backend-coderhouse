@@ -20,7 +20,7 @@ passport.use(
           address: req.body.address,
           age: req.body.age,
           phone: req.body.phone,
-          avatar: req.body.avatar,
+          avatar: `http://${req.headers.host}/public/images/${req.file.filename}`
         });
         await UsuariosDao.addItem(newUser);
         return callback(null, newUser);
