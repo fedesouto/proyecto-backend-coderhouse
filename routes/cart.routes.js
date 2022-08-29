@@ -13,5 +13,7 @@ cartRouter.delete('/:id', cartsController.deleteById)
 
 cartRouter.delete('/:id/productos/:id_prod',cartsController.deleteProduct)
 
+cartRouter.post('/:id', cartsController.submitOrder)
+
 
 module.exports = cartRouter;

@@ -1,5 +1,7 @@
 const Cart = require("../models/Cart");
-const { CarritosDao } = require("../daos/index");
+const { CarritosDao, OrdenesDao } = require("../daos/index");
+const Order = require("../models/Order");
+const { notifyOrder } = require("../utils/mailer");
 
 const cartsController = {};
 
@@ -57,8 +59,23 @@ cartsController.deleteProduct = async (req, res, next) => {
   try {
     res.json(await CarritosDao.deleteCartItem(id, id_prod))
   } catch (error) {
-    
+    next(error)
   }
 };
+
+cartsController.submitOrder = async (req, res, next) => {
+  const id = req.params.id;
+  const user = req.body.user
+  try {
+    await CarritosDao.updateItem(id, {completed: true})
+    const {productos} = await CarritosDao.getById(id)
+    const order = new Order(user, productos)
+    await OrdenesDao.addItem(order)
+    await notifyOrder(order)
+    res.json(order)
+  } catch (error) {
+    next(error)
+  }
+}
 
 module.exports = cartsController;

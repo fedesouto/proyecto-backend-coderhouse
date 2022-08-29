@@ -3,6 +3,7 @@ const passport = require("../auth/passport");
 const { UsuariosDao } = require("../daos");
 const { sessionErrorHandler } = require("../middlewares/errorHandlers");
 const uploadFile = require("../middlewares/multer");
+const { notifyNewUser } = require("../utils/mailer");
 
 const sessionRouter = Router();
 
@@ -11,8 +12,8 @@ sessionRouter.post(
   passport.authenticate("login"),
   sessionErrorHandler,
   (req, res, next) => {
-    const { id, avatar, name, username, address, phone, age } = req.user;
-    res.json({ id, avatar, name, username, address, phone, age });
+    const { id, avatar, name, username, address, phone, age, cartId } = req.user;
+    res.json({ id, avatar, name, username, address, phone, age, cartId });
   }
 );
 
@@ -21,9 +22,10 @@ sessionRouter.post(
   uploadFile.single("avatar"),
   passport.authenticate("signup"),
   sessionErrorHandler,
-  (err, req, res, next) => {
-    const { id, avatar, name, username, address, phone, age } = req.user;
-    res.json({ id, avatar, name, username, address, phone, age });
+  async (req, res, next) => {
+    const { id, avatar, name, username, address, phone, age, cartId } = req.user;
+    await notifyNewUser({id, name, username, address, phone, age})
+    res.json({ id, avatar, name, username, address, phone, age, cartId });
   }
 );
 
@@ -36,7 +38,7 @@ sessionRouter.get("/user", (req, res, next) => {
 
 sessionRouter.put('/user/:userId', async (req, res, next) => {
   const userId = req.params.userId
-  const cartId = req.body
+  const {cartId} = req.body
   console.log(userId, cartId)
   try {
     await UsuariosDao.updateItem(userId, {cartId: cartId})
