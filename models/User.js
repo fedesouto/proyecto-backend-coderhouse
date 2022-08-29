@@ -8,7 +8,7 @@ class User {
         this.password = password
         this.name = name
         this.address = address
-        this. age = age
+        this.age = age
         this.phone = phone
         this.avatar = avatar
     }
