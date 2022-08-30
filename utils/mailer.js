@@ -1,5 +1,6 @@
 const { createTransport } = require("nodemailer");
 const { gmail_pass, gmail_user } = require("../config");
+const logger = require("./logger");
 const generateOrderMail = require("./templates/orderMail");
 
 const transporter = createTransport({
@@ -31,9 +32,9 @@ const notifyNewUser = async (data) => {
             </ul>
             `,
     });
-    console.log(status);
+    logger.info(status)
   } catch (error) {
-    console.error(error);
+    logger.error(`Mailer error: ${error}`)
   }
 };
 
@@ -47,9 +48,9 @@ console.log(user)
       subject: `Nueva orden de ${user.name}`,
       html: generateOrderMail(id,user, productos, total),
     });
-    console.log(status);
+    logger.info(status)
   } catch (error) {
-    console.error(error);
+    logger.error(`Mailer error: ${error}`)
   }
 };
 

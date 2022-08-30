@@ -1,5 +1,6 @@
 const twilio = require('twilio')
 const { twilio_user, twilio_token, twilio_phone, admin_phone, twilio_wapp } = require('../config')
+const logger = require('./logger')
 
 const cliente = twilio(twilio_user, twilio_token)
 
@@ -10,9 +11,9 @@ const sendSMSToUser = async (phone) => {
             from: twilio_phone,
             to: phone
         })
-        console.log('Mensaje enviado al cliente', status)
+        logger.info('Mensaje enviado al cliente', status)
     } catch (error) {
-        console.log(error)
+        logger.error(`Error twilio: ${error}`)
     }
 }
 
@@ -23,9 +24,9 @@ try {
         from: twilio_wapp,
         to: `whatsapp:${admin_phone}`
     })
-    console.log('Mensaje enviado', status)
+    logger.info('Mensaje enviado al administrador', status)
 } catch (error) {
-    console.log(error)
+    logger.error(`Error twilio: ${error}`)
 }
 }
 

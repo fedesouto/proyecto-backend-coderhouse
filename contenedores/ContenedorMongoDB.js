@@ -1,4 +1,5 @@
 const { MongoClient, ObjectId } = require("mongodb");
+const logger = require("../utils/logger");
 
 class ContenedorMongoDB {
   constructor(connectionString, db, collection) {
@@ -11,6 +12,7 @@ class ContenedorMongoDB {
       await this.mongo.connect();
       console.log("Connected to database");
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -23,6 +25,7 @@ class ContenedorMongoDB {
         .toArray();
       return data;
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -34,6 +37,7 @@ class ContenedorMongoDB {
         .findOne({ [key]: value });
         return data
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -45,6 +49,7 @@ class ContenedorMongoDB {
         .findOne({ id: id });
       return data;
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -53,6 +58,7 @@ class ContenedorMongoDB {
       await this.mongo.db(this.db).collection(this.collection).insertOne(data);
       return data.id;
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -63,6 +69,7 @@ class ContenedorMongoDB {
         .collection(this.collection)
         .updateOne({ id: id }, { $set: data });
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -73,6 +80,7 @@ class ContenedorMongoDB {
         .collection(this.collection)
         .deleteOne({ id: id });
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }

@@ -1,6 +1,7 @@
 const ContenedorMongoDB = require("../../contenedores/ContenedorMongoDB");
 const Cart = require("../../models/Cart");
 const {mongodbUri} = require("../../config");
+const logger = require("../../utils/logger");
 
 class CarritosDaoMongoDB extends ContenedorMongoDB {
   constructor() {
@@ -13,6 +14,7 @@ class CarritosDaoMongoDB extends ContenedorMongoDB {
         .collection(this.collection)
         .updateOne({ id: cartId }, { $pull: { productos: { id: itemId } } });
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
@@ -27,6 +29,7 @@ class CarritosDaoMongoDB extends ContenedorMongoDB {
         return await this.addItem(JSON.parse(JSON.stringify(new Cart([item]))));
       }
     } catch (error) {
+      logger.error(`DB error: ${error}`)
       throw error;
     }
   }
