@@ -2,6 +2,7 @@ const Cart = require("../models/Cart");
 const { CarritosDao, OrdenesDao } = require("../daos/index");
 const Order = require("../models/Order");
 const { notifyOrder } = require("../utils/mailer");
+const { sendSMSToUser, sendWhatsappToAdmin } = require("../utils/twilio");
 
 const cartsController = {};
 
@@ -72,6 +73,8 @@ cartsController.submitOrder = async (req, res, next) => {
     const order = new Order(user, productos)
     await OrdenesDao.addItem(order)
     await notifyOrder(order)
+    await sendSMSToUser(user.phone)
+    await sendWhatsappToAdmin(`Nueva orden de ${user.name}`)
     res.json(order)
   } catch (error) {
     next(error)
