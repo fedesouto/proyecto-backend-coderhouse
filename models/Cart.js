@@ -1,11 +1,13 @@
-const uniqid = require('uniqid')
+const { Schema, model } = require('mongoose')
+const { ProductSchema } = require('./Product')
 
-class Cart {
-    constructor(productos){
-        this.id = uniqid()
-        this.timestamp = Date.now()
-        this.productos = productos
-    }
-}
+const CartSchema = new Schema({
+    productos: [{
+        ...ProductSchema.obj,
+        quantity: Number
+    }]
+})
 
-module.exports = Cart;
+const Cart = model('Cart', CartSchema)
+
+module.exports = Cart; 

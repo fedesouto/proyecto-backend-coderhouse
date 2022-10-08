@@ -1,18 +1,17 @@
 const express = require("express");
-const cartRouter = require("./routes/cart.routes");
-const productRouter = require("./routes/products.routes");
+const cartRouter = require("./api/routes/cart.routes");
+const productRouter = require("./api/routes/products.routes");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const { secret, server_mode } = require("./config");
-const session = require("./auth/session");
-const passport = require("./auth/passport");
-const sessionRouter = require("./routes/session.routes");
+const { server_mode, mongodbUri } = require("./config");
+const sessionRouter = require("./api/routes/session.routes");
 const {
   requestWarnLogger,
   requestLogger,
-} = require("./middlewares/requestLogger");
+} = require("./api/middlewares/requestLogger");
 const cluster = require("cluster");
 const logger = require("./utils/logger");
+const { default: mongoose } = require("mongoose");
+const isAuthenticated = require("./api/middlewares/auth");
 const cantCpus = require("os").cpus().length;
 
 if (server_mode === "cluster" && cluster.isPrimary) {
@@ -29,16 +28,16 @@ if (server_mode === "cluster" && cluster.isPrimary) {
   app.use(cors({ credentials: true }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser(secret));
-  app.use(session);
-  app.use(passport.initialize());
-  app.use(passport.session());
+ 
+
   app.use("/public", express.static("public"));
   app.use(requestLogger);
 
+  app.use("/api/session", sessionRouter);
+  
+  app.use(isAuthenticated)
   app.use("/api/productos", productRouter);
   app.use("/api/carritos", cartRouter);
-  app.use("/api/session", sessionRouter);
 
   app.get("*", requestWarnLogger, (req, res) => {
     res.status(404).send("Not Found");
@@ -46,7 +45,11 @@ if (server_mode === "cluster" && cluster.isPrimary) {
 
   const port = process.env.PORT || 8080;
 
-  app.listen(port, () =>
-    console.log(`Server listening on port ${port} - (PID ${process.pid})`)
-  );
+
+  mongoose.connect(mongodbUri).then(value => {
+    console.log('Connected to DB!')
+    app.listen(port, () =>
+      console.log(`Server listening on port ${port} - (PID ${process.pid})`)
+    );
+  })
 }

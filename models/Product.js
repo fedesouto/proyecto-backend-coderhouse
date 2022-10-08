@@ -1,16 +1,16 @@
-const uniqid = require('uniqid')
+const {Schema, model} = require('mongoose')
 
-class Product {
-  constructor({ name, description, code, image, price, stock }) {
-    this.id = uniqid()
-    this.timestamp = Date.now();
-    this.name = name;
-    this.description = description;
-    this.code = code;
-    this.image = image;
-    this.price = price;
-    this.stock = stock;
-  }
-}
+const ProductSchema = new Schema({
+  name: String,
+  description: String,
+  image: String,
+  price: Number,
+  stock: Number,
+  category: String
+})
 
-module.exports = Product;
+
+const ProductModel = model('Product', ProductSchema);
+
+
+module.exports = {ProductModel, ProductSchema}

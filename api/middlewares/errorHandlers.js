@@ -1,4 +1,4 @@
-const logger = require("../utils/logger")
+const logger = require("../../utils/logger")
 
 const sessionErrorHandler = (err, req, res, next) => {
     if(err) {

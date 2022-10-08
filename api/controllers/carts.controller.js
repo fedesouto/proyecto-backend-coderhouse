@@ -1,8 +1,8 @@
-const Cart = require("../models/Cart");
-const { CarritosDao, OrdenesDao } = require("../daos/index");
-const Order = require("../models/Order");
-const { notifyOrder } = require("../utils/mailer");
-const { sendSMSToUser, sendWhatsappToAdmin } = require("../utils/twilio");
+const Cart = require("../../models/Cart");
+const { CarritosDao, OrdenesDao } = require("../../daos/index");
+const Order = require("../../models/Order");
+const { notifyOrder } = require("../../utils/mailer");
+const { sendSMSToUser, sendWhatsappToAdmin } = require("../../utils/twilio");
 
 const cartsController = {};
 

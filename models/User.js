@@ -1,17 +1,18 @@
-const uniqid = require('uniqid')
+const { Schema, model } = require('mongoose')
 
-class User {
-    constructor({username, password, name, address, age, phone, avatar}){
-        this.id = uniqid()
-        this.timestamp = Date.now()
-        this.username = username
-        this.password = password
-        this.name = name
-        this.address = address
-        this.age = age
-        this.phone = phone
-        this.avatar = avatar
-    }
-}
+const UserSchema = new Schema({
+    username: { type: String, unique: true },
+    password: String,
+    name: String,
+    address: String,
+    age: Number,
+    phone: String,
+    avatar: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"},
+    cartId: String
+})
 
-module.exports = User
+const UserModel = model("User", UserSchema)
+
+
+
+module.exports = UserModel
