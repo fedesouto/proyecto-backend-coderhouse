@@ -1,24 +1,24 @@
-const Cart = require("../../models/Cart");
 const { CarritosDao, OrdenesDao } = require("../../daos/index");
 const Order = require("../../models/Order");
 const { notifyOrder } = require("../../utils/mailer");
 const { sendSMSToUser, sendWhatsappToAdmin } = require("../../utils/twilio");
+const cartsService = require("../../services/carts.service");
 
 const cartsController = {};
 
-cartsController.getAll = async (req, res, next) => {
+cartsController.getAll = async (_req, res, next) => {
   try {
-    const carritos = await CarritosDao.getAll();
-    res.json(carritos);
+    const carts = await cartsService.findAll()
+    res.json(carts);
   } catch (error) {
     next(error);
   }
 };
 
 cartsController.addNew = async (req, res, next) => {
-  const data = new Cart(req.body);
+  const data = req.body;
   try {
-    res.json(await CarritosDao.addItem(JSON.parse(JSON.stringify(data))));
+    res.json(await cartsService.create(data))
   } catch (error) {
     next(error);
   }
@@ -27,8 +27,8 @@ cartsController.addNew = async (req, res, next) => {
 cartsController.getById = async (req, res, next) => {
     const id = req.params.id;
   try {
-    const data = await CarritosDao.getById(id);
-    res.json(data);
+    const cart = await cartsService.findById(id);
+    res.json(cart);
   } catch (error) {
     next(error);
   }
@@ -37,7 +37,7 @@ cartsController.getById = async (req, res, next) => {
 cartsController.deleteById = async (req, res, next) => {
   const id = req.params.id;
   try {
-    res.json(await CarritosDao.deleteItem(id));
+    res.json(await cartsService.deleteById(id));
   } catch (error) {
     next(error);
   }
@@ -47,7 +47,7 @@ cartsController.addProduct = async (req, res, next) => {
   const id = req.params.id;
   const data = req.body;
   try {
-    res.json(await CarritosDao.addCartItem(id, data));
+    res.json(await cartsService.addProduct(id, data));
   } catch (error) {
     next(error);
   }
@@ -58,7 +58,7 @@ cartsController.deleteProduct = async (req, res, next) => {
   const id_prod = req.params.id_prod;
 
   try {
-    res.json(await CarritosDao.deleteCartItem(id, id_prod))
+    res.json(await cartsService.deleteProduct(id, id_prod))
   } catch (error) {
     next(error)
   }

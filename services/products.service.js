@@ -47,4 +47,13 @@ productsService.deleteById = async (id) => {
     }
 }
 
+productsService.findMany = async (ids) => {
+    try {
+        const products = await ProductModel.find({id: {$in: ids}}).exec()
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = productsService;

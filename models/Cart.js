@@ -1,13 +1,10 @@
-const { Schema, model } = require('mongoose')
-const { ProductSchema } = require('./Product')
+const { Schema, model } = require("mongoose");
 
 const CartSchema = new Schema({
-    productos: [{
-        ...ProductSchema.obj,
-        quantity: Number
-    }]
-})
+  products: [{ productId: String, quantity: Number }],
+  active: { type: Boolean, default: true },
+});
 
-const Cart = model('Cart', CartSchema)
+const CartModel = model("Cart", CartSchema);
 
-module.exports = Cart; 
+module.exports = CartModel;
