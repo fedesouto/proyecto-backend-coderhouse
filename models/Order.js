@@ -1,13 +1,19 @@
-const uniqid = require('uniqid')
+const {Schema, model} = require('mongoose')
 
-class Order {
-    constructor(user, productos){
-        this.id = uniqid()
-        this.timestamp = Date.now()
-        this.user = user
-        this.productos = productos
-        this.total = productos.reduce((a, b) => a + (b.quantity * Number(b.price)), 0)
-    }
-}
+const ItemSchema = new Schema({
+    name: String,
+    image: String,
+    price: Number,
+    quantity: Number,
+    subtotal: Number
+})
 
-module.exports = Order;
+const OrderSchema = new Schema({
+    user: {type: String /* Schema.Types.ObjectId, ref: "User" */},
+    products: [ItemSchema],
+    total: Number
+})
+
+const OrderModel = model("Order", OrderSchema)
+
+module.exports = OrderModel;

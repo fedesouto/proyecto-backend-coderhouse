@@ -8,7 +8,8 @@ const UserSchema = new Schema({
     age: Number,
     phone: String,
     avatar: {type: String, default: "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"},
-    cartId: String
+    orders: [{type: Schema.Types.ObjectId, ref: "Order"}],
+    currentCart: {type: Schema.Types.ObjectId, ref: "Cart"}
 })
 
 const UserModel = model("User", UserSchema)

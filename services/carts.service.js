@@ -13,7 +13,7 @@ cartsService.findAll = async () => {
 
 cartsService.findById = async (id) => {
   try {
-    const cart = await CartModel.findOne({ id: id });
+    const cart = await CartModel.findOne({ _id: id }).exec();
     return cart;
   } catch (error) {
     throw error;
@@ -31,7 +31,7 @@ cartsService.create = async (cartDto) => {
 
 cartsService.updateById = async (id, cartDto) => {
   try {
-    const updatedCart = await CartModel.updateOne({ id: id }, cartDto);
+    const updatedCart = await CartModel.updateOne({ _id: id }, cartDto);
     return updatedCart.id;
   } catch (error) {
     throw error;
@@ -40,7 +40,7 @@ cartsService.updateById = async (id, cartDto) => {
 
 cartsService.deleteById = async (id) => {
   try {
-    const deletedCart = await CartModel.deleteOne({ id: id });
+    const deletedCart = await CartModel.deleteOne({ _id: id });
     return deletedCart;
   } catch (error) {
     throw error;
@@ -52,7 +52,7 @@ cartsService.addProduct = async (id, addProductDto) => {
     const cart = await cartsService.findById(id);
     if (cart?.id) {
       const productIndex = cart.products.findIndex(
-        (product) => product.productId === addProductDto.productId
+        (item) => item.product.toString() === addProductDto.product
       );
       if (productIndex > -1) {
         cart.products[productIndex].quantity += addProductDto.quantity;
@@ -72,7 +72,7 @@ cartsService.deleteProduct = async (cartId, productId) => {
     const cart = await cartsService.findById(cartId);
     if (cart?.id) {
       const updatedProducts = cart.products.filter(
-        (product) => product.productId !== productId
+        (item) => item.product.toString() !== productId
       );
       if (updatedProducts.length === cart.products.length) {
         throw new Error("Product does not exist in cart.");
@@ -81,6 +81,15 @@ cartsService.deleteProduct = async (cartId, productId) => {
         return await cart.save();
       }
     }
+  } catch (error) {
+    throw error;
+  }
+};
+
+cartsService.findCartProducts = async (id) => {
+  try {
+    const cart = await CartModel.findOne({ _id: id }).populate('products.product').exec();
+    return cart;
   } catch (error) {
     throw error;
   }

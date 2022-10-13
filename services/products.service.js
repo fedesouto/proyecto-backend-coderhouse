@@ -22,7 +22,7 @@ try {
 
 productsService.findById = async (id) => {
     try {
-        const product = await ProductModel.findOne({id: id})
+        const product = await ProductModel.findOne({_id: id})
         return product;
     } catch (error) {
         throw error;
@@ -31,7 +31,7 @@ productsService.findById = async (id) => {
 
 productsService.updateById = async (id, productDto) => {
     try {
-        const updatedProduct = await ProductModel.updateOne({id: id}, productDto)
+        const updatedProduct = await ProductModel.updateOne({_id: id}, productDto)
         return updatedProduct;
     } catch (error) {
         throw error;
@@ -40,17 +40,8 @@ productsService.updateById = async (id, productDto) => {
 
 productsService.deleteById = async (id) => {
     try {
-        const deletedProduct = await ProductModel.deleteOne({id: id})
+        const deletedProduct = await ProductModel.deleteOne({_id: id})
         return deletedProduct;
-    } catch (error) {
-        throw error;
-    }
-}
-
-productsService.findMany = async (ids) => {
-    try {
-        const products = await ProductModel.find({id: {$in: ids}}).exec()
-        return products;
     } catch (error) {
         throw error;
     }

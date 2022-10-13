@@ -8,10 +8,10 @@ productRouter.get("/", productsController.getAll);
 
 productRouter.get("/:id?", productsController.getById);
 
-productRouter.post("/", isAuthorized, productsController.addNew);
+productRouter.post("/", productsController.addNew);
 
-productRouter.put("/:id", isAuthorized, productsController.updateById);
+productRouter.put("/:id", productsController.updateById);
 
-productRouter.delete("/:id", isAuthorized, productsController.deleteById);
+productRouter.delete("/:id", productsController.deleteById);
 
 module.exports = productRouter;

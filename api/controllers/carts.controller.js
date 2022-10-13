@@ -3,6 +3,7 @@ const Order = require("../../models/Order");
 const { notifyOrder } = require("../../utils/mailer");
 const { sendSMSToUser, sendWhatsappToAdmin } = require("../../utils/twilio");
 const cartsService = require("../../services/carts.service");
+const ordersService = require("../../services/orders.service");
 
 const cartsController = {};
 
@@ -64,18 +65,27 @@ cartsController.deleteProduct = async (req, res, next) => {
   }
 };
 
+cartsController.getProducts = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const cart = await cartsService.findCartProducts(id);
+    res.json(cart);
+  } catch (error) {
+    next(error);
+  }
+}
 cartsController.submitOrder = async (req, res, next) => {
   const id = req.params.id;
-  const user = req.body.user
+  const userId = req.body.userId
   try {
-    await CarritosDao.updateItem(id, {completed: true})
-    const {productos} = await CarritosDao.getById(id)
-    const order = new Order(user, productos)
-    await OrdenesDao.addItem(order)
-    await notifyOrder(order)
-    await sendSMSToUser(user.phone)
-    await sendWhatsappToAdmin(`Nueva orden de ${user.name}`)
-    res.json(order)
+
+    const createdOrder = await ordersService.submit(userId, id)
+
+    //await notifyOrder(order)
+    //await sendSMSToUser(user.phone)
+    //await sendWhatsappToAdmin(`Nueva orden de ${user.name}`)
+    
+    res.json(createdOrder)
   } catch (error) {
     next(error)
   }
