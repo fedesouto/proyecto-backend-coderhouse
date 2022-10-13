@@ -25,7 +25,7 @@ if (server_mode === "cluster" && cluster.isPrimary) {
 } else {
   const app = express();
 
-  app.use(cors({ credentials: true }));
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
  
@@ -33,9 +33,9 @@ if (server_mode === "cluster" && cluster.isPrimary) {
   app.use("/public", express.static("public"));
   app.use(requestLogger);
 
-  //app.use("/api/session", sessionRouter);
+  app.use("/api/session", sessionRouter);
   
-  //app.use(isAuthenticated)
+  app.use(isAuthenticated)
   app.use("/api/productos", productRouter);
   app.use("/api/carritos", cartRouter);
 

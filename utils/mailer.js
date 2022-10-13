@@ -39,14 +39,14 @@ const notifyNewUser = async (data) => {
 };
 
 const notifyOrder = async (data) => {
-const { id, user, productos, total } = data;
-console.log(user)
+  const { id, user, products, total } = data;
+  console.log(user)
   try {
     const status = await transporter.sendMail({
       from: "CHBE Admin <admin@coder.com>",
       to: adminEmail,
       subject: `Nueva orden de ${user.name}`,
-      html: generateOrderMail(id,user, productos, total),
+      html: generateOrderMail(id, user, products, total),
     });
     logger.info(status)
   } catch (error) {

@@ -1,5 +1,3 @@
-const { CarritosDao, OrdenesDao } = require("../../daos/index");
-const Order = require("../../models/Order");
 const { notifyOrder } = require("../../utils/mailer");
 const { sendSMSToUser, sendWhatsappToAdmin } = require("../../utils/twilio");
 const cartsService = require("../../services/carts.service");
@@ -76,7 +74,7 @@ cartsController.getProducts = async (req, res, next) => {
 }
 cartsController.submitOrder = async (req, res, next) => {
   const id = req.params.id;
-  const userId = req.body.userId
+  const userId = req.user._id
   try {
 
     const createdOrder = await ordersService.submit(userId, id)
