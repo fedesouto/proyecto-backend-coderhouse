@@ -13,6 +13,9 @@ cartsService.findAll = async () => {
 
 cartsService.findById = async (id) => {
   try {
+    if (id === "null") {
+      return false;
+    }
     const cart = await CartModel.findOne({ _id: id }).exec();
     return cart;
   } catch (error) {
@@ -88,7 +91,9 @@ cartsService.deleteProduct = async (cartId, productId) => {
 
 cartsService.findCartProducts = async (id) => {
   try {
-    const cart = await CartModel.findOne({ _id: id }).populate('products.product').exec();
+    const cart = await CartModel.findOne({ _id: id })
+      .populate("products.product")
+      .exec();
     return cart;
   } catch (error) {
     throw error;

@@ -24,5 +24,14 @@ authController.signup = async (req, res, next) => {
   }
 };
 
+authController.getUserData = async (req, res, next) => {
+  try {
+    const user = req.user
+    delete user.password
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
+}
 
 module.exports = authController;

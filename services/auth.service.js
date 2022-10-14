@@ -29,8 +29,9 @@ authService.signIn = async (username, password) => {
     else {
         const validPass = bcrypt.compareSync(password, user?.password)
         if (validPass) {
+            delete user.password
             const token = authService.generateToken(user)
-            return token;
+            return {token, user}
         }
         else {
             throw new Error('Invalid credentials.')

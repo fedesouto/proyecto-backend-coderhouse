@@ -23,7 +23,7 @@ sessionRouter.post(
   authController.signup
 );
 
-sessionRouter.get("/user", isAuthenticated);
+sessionRouter.get("/user", isAuthenticated, authController.getUserData);
 
 
 module.exports = sessionRouter;
