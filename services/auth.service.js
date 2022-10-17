@@ -39,4 +39,16 @@ authService.signIn = async (username, password) => {
     }
 }
 
+authService.signUp = async (createUserDto) => {
+    try {
+        createUserDto.password = bcrypt.hashSync(createUserDto.password, bcrypt.genSaltSync(10), null)
+        const createdUser = await usersService.create(createUserDto)
+        delete createdUser.password
+        const token = authService.generateToken(createdUser)
+        return {token, createdUser}
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = authService;

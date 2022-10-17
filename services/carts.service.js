@@ -1,4 +1,5 @@
 const CartModel = require("../models/Cart");
+const usersService = require("./users.service");
 
 const cartsService = {};
 
@@ -23,9 +24,10 @@ cartsService.findById = async (id) => {
   }
 };
 
-cartsService.create = async (cartDto) => {
+cartsService.create = async (cartDto, userId) => {
   try {
     const createdCart = await CartModel.create(cartDto);
+    await usersService.updateCurrentCart(userId, createdCart.id)
     return createdCart.id;
   } catch (error) {
     throw error;

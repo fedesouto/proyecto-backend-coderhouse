@@ -1,3 +1,4 @@
+const authService = require("../../services/auth.service");
 const usersService = require("../../services/users.service");
 const { notifyNewUser } = require("../../utils/mailer");
 
@@ -6,8 +7,8 @@ const authController = {};
 authController.login = async (req, res, next) => {
   const { username, password } = req.body;
   try {
-    const user = await authService.signIn(username, password)
-    res.json(user)
+    const payload = await authService.signIn(username, password)
+    res.json(payload)
   } catch (error) {
     next(error)
   }
@@ -16,9 +17,9 @@ authController.login = async (req, res, next) => {
 authController.signup = async (req, res, next) => {
   try {
     const newUser = req.body;
-    const createdUser = await usersService.create(newUser);
+    const payload = await authService.signUp(newUser)
     //await notifyNewUser({ id, name, username, address, phone, age });
-    res.json(createdUser);
+    res.json(payload);
   } catch (error) {
     next(error)
   }

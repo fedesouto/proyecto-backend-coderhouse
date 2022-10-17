@@ -11,7 +11,7 @@ const {
 const cluster = require("cluster");
 const logger = require("./utils/logger");
 const { default: mongoose } = require("mongoose");
-const isAuthenticated = require("./api/middlewares/auth");
+const {isAuthenticated} = require("./api/middlewares/user.middlewares");
 const cantCpus = require("os").cpus().length;
 
 if (server_mode === "cluster" && cluster.isPrimary) {

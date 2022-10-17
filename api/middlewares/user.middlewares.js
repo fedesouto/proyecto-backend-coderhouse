@@ -8,8 +8,14 @@ const isAuthenticated = (req, res, next) => {
         next()
     } catch (error) {
         res.status(401).send(error)
-    }
-    
+    }   
 }
 
-module.exports = isAuthenticated;
+const setAvatarFilename = (req, _res, next) => {
+    if(req.file) {
+        req.body.avatar = `http://${req.headers.host}/public/images/${req.file.filename}`
+    }
+    next()
+}
+
+module.exports = {isAuthenticated, setAvatarFilename};
