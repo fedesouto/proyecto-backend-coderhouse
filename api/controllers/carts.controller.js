@@ -2,6 +2,7 @@ const { notifyOrder } = require("../../utils/mailer");
 const { sendSMSToUser, sendWhatsappToAdmin } = require("../../utils/twilio");
 const cartsService = require("../../services/carts.service");
 const ordersService = require("../../services/orders.service");
+const notificationsService = require("../../services/notifications.service");
 
 const cartsController = {};
 
@@ -80,7 +81,7 @@ cartsController.submitOrder = async(req, res, next) => {
 
         const createdOrder = await ordersService.submit(userId, id)
 
-        //await notifyOrder(order)
+        await notificationsService.newOrder(createdOrder, req.user)
         //await sendSMSToUser(user.phone)
         //await sendWhatsappToAdmin(`Nueva orden de ${user.name}`)
 

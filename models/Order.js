@@ -9,7 +9,7 @@ const ItemSchema = new Schema({
 })
 
 const OrderSchema = new Schema({
-    user: {type: String /* Schema.Types.ObjectId, ref: "User" */},
+    user: { type: Schema.Types.ObjectId, ref: "User" },
     products: [ItemSchema],
     total: Number
 })

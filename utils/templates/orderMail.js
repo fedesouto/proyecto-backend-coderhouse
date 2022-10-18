@@ -1,5 +1,5 @@
 const generateOrderMail = ( id, user, productos, total) => {
-
+    console.log(productos)
     const list = productos.map(producto => {
         return `<li>${producto.quantity} x ${producto.name}</li>`
     })

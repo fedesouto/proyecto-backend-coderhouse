@@ -12,7 +12,7 @@ ordersService.submit = async(userId, cartId) => {
         const createdOrder = await OrderModel.create(newOrderDto)
         await usersService.updateCurrentCart(userId)
         await usersService.setNewOrder(userId, createdOrder._id)
-        return createdOrder.id;
+        return createdOrder;
     } catch (error) {
         throw error;
     }

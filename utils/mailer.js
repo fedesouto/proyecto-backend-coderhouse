@@ -14,7 +14,7 @@ const transporter = createTransport({
 
 const adminEmail = "federicogsouto@gmail.com";
 
-const notifyNewUser = async (data) => {
+const mailNewUser = async (data) => {
   try {
     const status = await transporter.sendMail({
       from: "CHBE Admin <admin@coder.com>",
@@ -38,10 +38,9 @@ const notifyNewUser = async (data) => {
   }
 };
 
-const notifyOrder = async (data) => {
-  const { id, user, products, total } = data;
-  console.log(user)
+const mailNewOrder = async (id, user, products, total) => {
   try {
+    console.log(products)
     const status = await transporter.sendMail({
       from: "CHBE Admin <admin@coder.com>",
       to: adminEmail,
@@ -54,4 +53,4 @@ const notifyOrder = async (data) => {
   }
 };
 
-module.exports = { notifyNewUser, notifyOrder };
+module.exports = { mailNewUser, mailNewOrder };
