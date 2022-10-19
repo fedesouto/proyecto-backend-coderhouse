@@ -1,18 +1,17 @@
 const productsService = require("../../services/products.service");
 
-
 const productsController = {};
 
 productsController.getAll = async(req, res, next) => {
     try {
-        const products = await productsService.findAll()
+        const products = await productsService.findAll();
         res.json(products);
     } catch (error) {
         next(error);
     }
 };
 productsController.addNew = async(req, res, next) => {
-    const data = req.body
+    const data = req.body;
     try {
         res.json(await productsService.create(data));
     } catch (error) {
@@ -45,11 +44,25 @@ productsController.updateById = async(req, res, next) => {
         next(error);
     }
 };
-productsController.findByQuery = async(req, res, next) => {
-    const queryKey = Object.keys(req.query)[0]
-    const queryValue = req.query[queryKey]
-    const products = await productsService.findByKey(queryKey, queryValue)
-    res.json(products)
-}
+productsController.getByQuery = async(req, res, next) => {
+    const queryKey = Object.keys(req.query)[0];
+    const queryValue = req.query[queryKey];
+    try {
+        const products = await productsService.findByKey(queryKey, queryValue);
+        res.json(products);
+    } catch (error) {
+        next(error);
+    }
+};
+
+productsController.getByCategory = async(req, res, next) => {
+    const category = req.params.category;
+    try {
+        const products = await productsService.findByKey("category", category);
+        res.json(products);
+    } catch (error) {
+        next(error);
+    }
+};
 
 module.exports = productsController;

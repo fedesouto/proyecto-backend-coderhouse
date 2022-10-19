@@ -5,7 +5,9 @@ const productRouter = Router();
 
 productRouter.get("/", productsController.getAll);
 
-productRouter.get('/q', productsController.findByQuery);
+productRouter.get('/q', productsController.getByQuery);
+
+productRouter.get('/category/:category', productsController.getByCategory)
 
 productRouter.get("/:id?", productsController.getById);
 

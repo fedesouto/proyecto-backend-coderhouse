@@ -1,4 +1,5 @@
 const UserModel = require("../models/User");
+const notificationsService = require("./notifications.service");
 
 const usersService = {};
 
@@ -16,6 +17,7 @@ usersService.findOne = async(key, value) => {
 usersService.create = async(createUserDto) => {
     try {
         const createdUser = await UserModel.create(createUserDto);
+        await notificationsService.newUser(createdUser)
         return createdUser;
     } catch (error) {
         throw error;
