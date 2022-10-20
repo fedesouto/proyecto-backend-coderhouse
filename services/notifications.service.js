@@ -4,7 +4,7 @@ const { mailNewOrder, mailNewUser } = require("../utils/mailer");
 const notificationsService = {}
 
 notificationsService.newOrder = async(order, user) => {
-    const { name, email, phone } = user;
+    const { name, email } = user;
     const { _id, products, total } = order;
     try {
         await mailNewOrder(_id, user, products, total);
@@ -14,8 +14,8 @@ notificationsService.newOrder = async(order, user) => {
     }
 }
 notificationsService.newUser = async(user) => {
-    const { _id, username, name, address, age, phone } = user;
-    const data = { id: _id, username, address, age, phone }
+    const { _id, username, name, address, age, email } = user;
+    const data = { id: _id, username, address, age, email }
     try {
         await mailNewUser(data)
     } catch (error) {

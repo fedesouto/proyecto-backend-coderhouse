@@ -31,7 +31,11 @@ if (server_mode === "cluster" && cluster.isPrimary) {
 
     const app = express();
     const httpServer = new HttpServer(app)
-    const ioServer = new IOServer(httpServer)
+    const ioServer = new IOServer(httpServer, {
+        cors: {
+            origin: "*",
+        }
+    })
 
 
 
