@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { secret } = require('../config');
 const usersService = require('./users.service');
+const userDto = require('../dtos/user.dto');
 
 const authService = {}
 
@@ -29,9 +30,9 @@ authService.signIn = async (username, password) => {
     else {
         const validPass = bcrypt.compareSync(password, user?.password)
         if (validPass) {
-            delete user.password
-            const token = authService.generateToken(user)
-            return {token, user}
+            const loginUserDto = userDto.create(user)
+            const token = authService.generateToken(loginUserDto)
+            return {token, user: loginUserDto}
         }
         else {
             throw new Error('Invalid credentials.')
@@ -43,9 +44,9 @@ authService.signUp = async (createUserDto) => {
     try {
         createUserDto.password = bcrypt.hashSync(createUserDto.password, bcrypt.genSaltSync(10), null)
         const createdUser = await usersService.create(createUserDto)
-        delete createdUser.password
         const token = authService.generateToken(createdUser)
-        return {token, createdUser}
+        const createdUserDto = userDto.create(createdUser)
+        return {token, createdUserDto}
     } catch (error) {
         throw error;
     }

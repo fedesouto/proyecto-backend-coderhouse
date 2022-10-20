@@ -17,6 +17,8 @@ const logger = require("./utils/logger");
 const { default: mongoose } = require("mongoose");
 const { isAuthenticated } = require("./api/middlewares/user.middlewares");
 const chatsController = require("./api/controllers/chats.controller");
+const ordersRouter = require("./api/routes/orders.routes");
+const errorsController = require("./api/controllers/errors.controller");
 const cantCpus = require("os").cpus().length;
 
 if (server_mode === "cluster" && cluster.isPrimary) {
@@ -52,6 +54,11 @@ if (server_mode === "cluster" && cluster.isPrimary) {
     app.use(isAuthenticated)
     app.use("/api/productos", productRouter);
     app.use("/api/carritos", cartRouter);
+    app.use("/api/orders", ordersRouter)
+    app.use(errorsController)
+
+
+
 
     app.get("*", requestWarnLogger, (req, res) => {
         res.status(404).send("Not Found");

@@ -1,4 +1,5 @@
 const { ProductModel } = require("../models/Product");
+const { NotFoundError } = require("../utils/custom.errors");
 
 const productsService = {};
 
@@ -23,6 +24,7 @@ productsService.create = async(productDto) => {
 productsService.findById = async(id) => {
     try {
         const product = await ProductModel.findOne({ _id: id });
+        if(!product) throw new NotFoundError('Product')
         return product;
     } catch (error) {
         throw error;

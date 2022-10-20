@@ -65,4 +65,5 @@ productsController.getByCategory = async(req, res, next) => {
     }
 };
 
+
 module.exports = productsController;
