@@ -1,0 +1,12 @@
+<div class="container messages">
+  {{#if chats}}
+    {{#each chats}}
+      <div class="container d-flex">
+        <p class="text-danger"><b
+            class="text-primary"
+          >{{email}} </b>[{{type}}] :
+          <em class="text-success">{{message}}</em></p>
+      </div>
+    {{/each}}
+  {{/if}}
+</div>

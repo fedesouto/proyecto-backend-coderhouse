@@ -19,6 +19,7 @@ const { isAuthenticated } = require("./api/middlewares/user.middlewares");
 const chatsController = require("./api/controllers/chats.controller");
 const ordersRouter = require("./api/routes/orders.routes");
 const errorsController = require("./api/controllers/errors.controller");
+const dashboardRouter = require("./api/routes/dashboard.routes");
 const cantCpus = require("os").cpus().length;
 
 if (server_mode === "cluster" && cluster.isPrimary) {
@@ -50,6 +51,8 @@ if (server_mode === "cluster" && cluster.isPrimary) {
     app.use(requestLogger);
 
     app.use("/api/session", sessionRouter);
+
+    app.use("/dashboard", dashboardRouter)
 
     app.use(isAuthenticated)
     app.use("/api/productos", productRouter);

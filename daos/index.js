@@ -7,5 +7,3 @@ const ProductosDao = new ProductosDaoMongoDB();
 const CarritosDao = new CarritosDaoMongoDB();
 const UsuariosDao = new UsuariosDaoMongoDB();
 const OrdenesDao = new OrdenesDaoMongoDB()
-
-module.exports = {ProductosDao, CarritosDao, UsuariosDao, OrdenesDao};

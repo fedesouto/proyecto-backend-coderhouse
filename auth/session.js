@@ -9,11 +9,9 @@ const session = expressSession({
     rolling: true,
     store: MongoStore.create({
         mongoUrl: mongodbUriSessions,
-        mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true}
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true }
     }),
     cookie: {
         maxAge: 60000
     }
 })
-
-module.exports = session
