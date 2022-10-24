@@ -5,7 +5,7 @@ const mongodbUri = process.env.MONGODB_URI;
 const mongodbUriSessions = process.env.MONGODB_URI_SESSIONS;
 const sessionSecret = process.env.SESSION_SECRET;
 const secret = process.env.SECRET;
-const gmail_user = "federicogsouto@gmail.com";
+const gmail_user = process.env.GMAIL_USER;
 const gmail_pass = process.env.APP_PASSWORD;
 const twilio_user = process.env.TWILIO_USER
 const twilio_token = process.env.TWILIO_TOKEN
@@ -14,6 +14,7 @@ const admin_phone = process.env.ADMIN_PHONE
 const twilio_wapp = process.env.TWILIO_WAPP
 const server_mode = process.env.MODE || 'fork'
 const port = process.env.PORT || 8080
+const adminEmail = process.env.ADMIN_EMAIL
 
 module.exports = {
   secret,
@@ -28,5 +29,6 @@ module.exports = {
   admin_phone,
   twilio_wapp,
   server_mode,
-  port
+  port,
+  adminEmail
 };

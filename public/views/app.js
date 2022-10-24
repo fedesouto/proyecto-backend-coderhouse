@@ -1,4 +1,4 @@
-fetch('./info')
+fetch('/dashboard/info')
 .then(res => res.json())
 .then(info => {
     const {execPath, mode, nodeVersion, os, port, processId, rss} = info

@@ -1,5 +1,5 @@
 const { createTransport } = require("nodemailer");
-const { gmail_pass, gmail_user } = require("../config");
+const { gmail_pass, gmail_user, adminEmail } = require("../config");
 const logger = require("./logger");
 const generateOrderMail = require("./templates/orderMail");
 
@@ -12,7 +12,6 @@ const transporter = createTransport({
     },
 });
 
-const adminEmail = "federicogsouto@gmail.com";
 
 const mailNewUser = async(data) => {
     try {
