@@ -6,7 +6,7 @@ const { Server: HttpServer } = require("http");
 const cartRouter = require("./api/routes/cart.routes");
 const productRouter = require("./api/routes/products.routes");
 const cors = require("cors");
-const { server_mode, mongodbUri } = require("./config");
+const { server_mode, mongodbUri, port } = require("./config");
 const sessionRouter = require("./api/routes/session.routes");
 const {
     requestWarnLogger,
@@ -67,7 +67,6 @@ if (server_mode === "cluster" && cluster.isPrimary) {
         res.status(404).send("Not Found");
     });
 
-    const port = process.env.PORT || 8080;
 
 
     ioServer.on('connection', async(socket) => chatsController(socket, ioServer))

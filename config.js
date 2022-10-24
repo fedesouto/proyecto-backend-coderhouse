@@ -13,6 +13,7 @@ const twilio_phone = process.env.TWILIO_PHONE
 const admin_phone = process.env.ADMIN_PHONE
 const twilio_wapp = process.env.TWILIO_WAPP
 const server_mode = process.env.MODE || 'fork'
+const port = process.env.PORT || 8080
 
 module.exports = {
   secret,
@@ -26,5 +27,6 @@ module.exports = {
   twilio_phone,
   admin_phone,
   twilio_wapp,
-  server_mode
+  server_mode,
+  port
 };

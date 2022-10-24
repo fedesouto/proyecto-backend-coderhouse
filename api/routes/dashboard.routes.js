@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const { join } = require('path')
+const miscController = require('../controllers/misc.controller')
 
 const dashboardRouter = Router()
 
@@ -11,6 +12,8 @@ dashboardRouter.get('/', (req, res, next) => {
 dashboardRouter.get('/chat', (req, res, next) => {
     res.sendFile(join(process.cwd(), 'public', 'views', 'chat', 'index.html'))
 })
+
+dashboardRouter.get('/info', miscController.getServerConfig)
 
 /* dashboardRouter.get('/orders', (req, res, next) => {
     res.sendFile(join(process.cwd(), 'public', 'views', 'orders', 'index.html'))

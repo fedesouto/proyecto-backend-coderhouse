@@ -1,0 +1,11 @@
+.system {
+    justify-content: flex-end;
+}
+#chat-container {
+    max-width: 350px;
+    height: 400px;
+    overflow-y: scroll;
+    box-shadow: 0 0 5px lightslategray;
+    border-radius: 0.5rem;
+    padding: 1rem 0;
+}
